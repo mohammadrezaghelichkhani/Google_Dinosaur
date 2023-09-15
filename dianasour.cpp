@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include <conio.h>
 #include <unistd.h>
-char BOARD[6][10000000];
+char BOARD[6][10000];
 int x = 5, y, counter, passedObstacles, eatenFood;
 void PrintBoard()
 {
@@ -27,34 +27,41 @@ void updateEatenFood()
 {
     eatenFood += (BOARD[x][y] == '^');
 }
-int main()
+void initialization()
 {
     for (int i = 0; i < 6; i++)
     {
-        for (int j = 0; j < 10000000; j++)
+        for (int j = 0; j < 10000; j++)
         {
             BOARD[i][j] = ' ';
         }
     }
-    char forHandlingKbhit;
     int obstacleHeight;
     int curObstacle = y;
     int xFood, yFood = y;
+    while (yFood < 2000 && curObstacle < 2000)
+    {
+        curObstacle += rand() % 6 + 11;
+        obstacleHeight = rand() % 3 + 1;
+        xFood = rand() % 6;
+        yFood += 10 + rand() % 10;
+        BOARD[xFood][yFood] = '^';
+        for (int i = 6; i >= 6 - obstacleHeight; i--)
+        {
+            BOARD[i][curObstacle] = '#';
+        }
+    }
     BOARD[x][y] = '*';
+}
+int main()
+{
+    initialization();
+    char forHandlingKbhit;
     PrintBoard();
     srand(time(NULL));
     while (true)
     {
         usleep(100000);
-        curObstacle += rand() % 10 + 10;
-        obstacleHeight = rand() % 3 + 1;
-        xFood = rand() % 6;
-        yFood += 10 + rand() % 10;
-        BOARD[xFood][yFood] = '^';
-        for (int i = 6; i > 6 - obstacleHeight; i--)
-        {
-            BOARD[i][curObstacle] = '#';
-        }
         BOARD[x][y] = ' ';
         y++;
         if (BOARD[x][y] == '#')
