@@ -2,8 +2,8 @@
 #include <conio.h>
 #include <unistd.h>
 #include <windows.h>
-const int RED = 12; // Red color code
-const int GREEN = 10; // Green color code
+const int RED = 12;          // Red color code
+const int GREEN = 10;        // Green color code
 const int DEFAULT_COLOR = 7; // Default console color code
 char BOARD[6][10000];
 int x = 5, y, counter, passedObstacles, eatenFood;
@@ -13,7 +13,7 @@ void PrintBoard()
 
     std::cout << "score: " << y + 10 * passedObstacles + 20 * eatenFood << "\n"
               << "passed destination: " << y << "  \neaten food: " << eatenFood << "  \npassed obstacles: " << passedObstacles << "\n";
-    
+
     for (int i = 0; i < 6; i++)
     {
         for (int j = y; j < y + 125; j++)
@@ -72,8 +72,15 @@ void initialization()
     }
     BOARD[x][y] = '*';
 }
+void SetCursorPosition(int x, int y)
+{
+    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD pos{x, y};
+    SetConsoleCursorPosition(output, pos);
+}
 int main()
 {
+    system("cls");
     initialization();
     char forHandlingKbhit;
     PrintBoard();
@@ -106,7 +113,7 @@ int main()
                 updateEatenFood();
                 BOARD[x][y] = '*';
                 usleep(100000 - 100 * y);
-                system("CLS");
+                SetCursorPosition(0, 0);
                 PrintBoard();
             }
             while (counter--)
@@ -122,13 +129,13 @@ int main()
                 updateEatenFood();
                 BOARD[x][y] = '*';
                 usleep(100000 - 100 * y);
-                system("CLS");
+                SetCursorPosition(0, 0);
                 PrintBoard();
             }
             counter = 0;
         }
         BOARD[x][y] = '*';
-        system("CLS");
+        SetCursorPosition(0, 0);
         PrintBoard();
     }
 }
