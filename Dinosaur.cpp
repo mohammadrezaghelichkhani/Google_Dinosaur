@@ -16,7 +16,7 @@ void PrintBoard()
 
     for (int i = 0; i < 6; i++)
     {
-        for (int j = y; j < y + 125; j++)
+        for (int j = y; j < y + 50; j++)
         {
             switch (BOARD[i][j])
             {
